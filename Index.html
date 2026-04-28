@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vennapoosala Nandavardhan Reddy — Frontend Developer</title>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0b1120;--navy-mid:#111827;--navy-light:#1a2540;--navy-card:#162035;
+  --gold:#c9a84c;--gold-light:#e2c97a;--gold-pale:#f5ecd0;
+  --gold-dim:rgba(201,168,76,.15);--gold-line:rgba(201,168,76,.25);
+  --white:#f8f6f0;--grey:#8a96aa;--grey-light:#c4cad6;
+  --border:rgba(201,168,76,.18);
+}
+html{scroll-behavior:smooth}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:10px}
+body{background:var(--navy);color:var(--white);font-family:'Outfit',sans-serif;font-size:15px;line-height:1.65;overflow-x:hidden}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s ease,visibility .6s ease}
+#loader.hide{opacity:0;visibility:hidden}
+.loader-text{font-family:'Libre Baskerville',serif;font-size:1.8rem;letter-spacing:.1em;color:var(--gold);animation:lp 1s ease-in-out infinite}
+@keyframes lp{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 4rem;background:rgba(11,17,32,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+nav.shadow{box-shadow:0 4px 30px rgba(0,0,0,.5)}
+.logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;letter-spacing:.06em;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.7rem}
+.logo-mark{width:32px;height:32px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--gold);font-weight:700;letter-spacing:.05em;transition:background .25s,color .25s}
+.logo:hover .logo-mark{background:var(--gold);color:var(--navy)}
+.nav-center{display:flex;gap:2.5rem;list-style:none}
+.nav-center a{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .2s;position:relative;padding-bottom:3px}
+.nav-center a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-center a:hover{color:var(--white)}
+.nav-center a:hover::after{width:100%}
+.nav-btn{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);background:var(--gold);padding:.55rem 1.4rem;border:none;cursor:pointer;text-decoration:none;transition:background .2s,transform .2s}
+.nav-btn:hover{background:var(--gold-light);transform:translateY(-1px)}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;z-index:10}
+/* .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px} */
+.ham span{display:block;width:22px;height:1.5px;background:var(--white);transition:all .3s}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 4rem 80px;max-width:1400px;margin:0 auto;gap:4rem;position:relative}
+.hero-bg{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:60px 60px}
+.hero-blob{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:0}
+.hero-left{position:relative;z-index:1}
+.hero-kicker{display:inline-flex;align-items:center;gap:.7rem;font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.8rem;opacity:0;animation:rise .7s ease forwards .2s}
+.hero-kicker::before,.hero-kicker::after{content:'';width:28px;height:1px;background:var(--gold)}
+.hero-name{font-family:'Libre Baskerville',serif;font-size:clamp(3rem,6vw,5.8rem);font-weight:700;line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;opacity:0;animation:rise .8s ease forwards .38s}
+.hero-name .line2{font-style:italic;font-weight:400;color:transparent;-webkit-text-stroke:1.5px var(--gold-light)}
+.hero-tagline{font-family:'Fira Code',monospace;font-size:.88rem;color:var(--grey-light);margin-bottom:1.8rem;opacity:0;animation:rise .7s ease forwards .54s;display:flex;align-items:center;gap:.7rem}
+.hero-tagline span{color:var(--gold)}
+.hero-bio{font-size:.96rem;font-weight:300;color:rgba(248,246,240,.58);line-height:1.9;max-width:460px;margin-bottom:2.5rem;opacity:0;animation:rise .7s ease forwards .68s}
+.hero-links{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:rise .7s ease forwards .82s}
+.btn-gold{display:inline-flex;align-items:center;gap:.6rem;font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--gold);color:var(--navy);padding:.85rem 2rem;text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;border:none;cursor:pointer}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+.btn-outline{display:inline-flex;align-items:center;gap:.6rem;font-size:.74rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:transparent;color:var(--gold);padding:.85rem 2rem;text-decoration:none;border:1px solid var(--gold-line);transition:background .2s,transform .2s,border-color .2s}
+.btn-outline:hover{background:var(--gold-dim);border-color:var(--gold);transform:translateY(-2px)}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* PHOTO */
+.hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;opacity:0;animation:rise .9s ease forwards .5s}
+.photo-wrap{position:relative;width:320px}
+.photo-wrap::before,.photo-wrap::after{content:'';position:absolute;width:40px;height:40px;z-index:2}
+.photo-wrap::before{top:-10px;left:-10px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.photo-wrap::after{bottom:-10px;right:-10px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.photo-inner{position:relative;width:100%;padding-top:115%;overflow:hidden;background:var(--navy-card);border:1px solid var(--border)}
+.photo-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--navy-light) 0%,var(--navy-card) 100%);gap:1.2rem;padding:2rem;text-align:center}
+.avatar-svg{width:90px;height:90px;opacity:.15;color:var(--gold)}
+.ph-hint{font-family:'Fira Code',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.45;line-height:1.8}
+.photo-inner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
+.photo-badge{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.45rem 1.2rem;white-space:nowrap;box-shadow:0 4px 16px rgba(201,168,76,.4)}
+.hero-status{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:2.2rem}
+.status-pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--navy-card);border:1px solid var(--border);font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:.08em;color:var(--grey-light);padding:.3rem .9rem}
+.dot-live{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;animation:lv 2s ease-in-out infinite}
+@keyframes lv{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* DIVIDER */
+.divider{max-width:1400px;margin:0 auto;padding:0 4rem;display:flex;align-items:center;gap:1.5rem}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-mark{font-family:'Libre Baskerville',serif;font-style:italic;font-size:.8rem;color:var(--gold);opacity:.6;white-space:nowrap}
+
+/* SECTION BASE */
+.sec{padding:90px 4rem;max-width:1400px;margin:0 auto}
+.sec-label{display:inline-flex;align-items:center;gap:.7rem;font-family:'Fira Code',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.sec-label .ln{display:block;width:24px;height:1px;background:var(--gold)}
+.sec-title{font-family:'Libre Baskerville',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:.6rem}
+.sec-sub{font-size:.93rem;font-weight:300;color:rgba(248,246,240,.45);line-height:1.8;max-width:480px;margin-bottom:3.5rem}
+
+/* ABOUT */
+.about-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:5rem;align-items:start}
+.about-body p{font-size:.96rem;font-weight:300;color:rgba(248,246,240,.68);line-height:1.95;margin-bottom:1.1rem}
+.about-body p strong{color:var(--gold-light);font-weight:500}
+.about-meta{margin-top:2rem;display:flex;flex-direction:column;gap:.7rem}
+.meta-row{display:flex;align-items:center;gap:1rem;padding:.7rem 1rem;background:var(--navy-card);border:1px solid var(--border);border-left:2px solid var(--gold);font-size:.85rem;color:var(--grey-light);transition:background .2s}
+.meta-row:hover{background:var(--navy-light)}
+.meta-row svg{width:15px;height:15px;color:var(--gold);flex-shrink:0}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--border)}
+.stat-cell{padding:2rem 1.8rem;background:var(--navy-card);display:flex;flex-direction:column;gap:.3rem;transition:background .25s;border:1px solid transparent}
+.stat-cell:hover{background:var(--navy-light);border-color:var(--border)}
+.stat-n{font-family:'Libre Baskerville',serif;font-size:2.8rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-l{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--grey)}
+
+/* EDUCATION */
+.edu-sec{background:var(--navy-mid)}
+.edu-list{display:flex;flex-direction:column;gap:1px}
+.edu-card{display:grid;grid-template-columns:180px 1fr;background:var(--navy-card);border:1px solid var(--border);transition:border-color .25s,transform .25s;overflow:hidden}
+.edu-card:hover{border-color:rgba(201,168,76,.45);transform:translateX(4px)}
+.edu-year-col{padding:2rem;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;background:var(--navy-light)}
+.edu-yr{font-family:'Libre Baskerville',serif;font-style:italic;font-size:.85rem;color:var(--gold);margin-bottom:.3rem}
+.edu-score-tag{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold-dim);border:1px solid var(--gold-line);font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--gold-light);padding:.22rem .6rem;margin-top:.5rem;width:fit-content}
+.edu-main{padding:2rem 2.2rem}
+.edu-deg{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.35rem}
+.edu-school{font-size:.87rem;font-weight:300;color:var(--grey-light)}
+
+/* PROJECTS */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px}
+.proj-card{background:var(--navy-card);border:1px solid var(--border);display:flex;flex-direction:column;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.proj-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px)}
+.proj-card:hover::before{transform:scaleX(1)}
+.proj-vis{height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pv-a{background:linear-gradient(135deg,#0f1d30 0%,#162540 100%)}
+.pv-b{background:linear-gradient(135deg,#0f1e1a 0%,#122820 100%)}
+.pv-c{background:linear-gradient(135deg,#1e1508 0%,#2a1f0a 100%)}
+.code-art{font-family:'Fira Code',monospace;font-size:.68rem;line-height:2;padding:1.5rem;width:100%;color:rgba(201,168,76,.35);text-align:left;user-select:none}
+.ca-kw{color:rgba(201,168,76,.7);font-weight:500}
+.ca-str{color:rgba(100,180,220,.5)}
+.ca-tag{color:rgba(201,168,76,.5)}
+.ca-cmt{color:rgba(120,140,160,.4)}
+.proj-num{position:absolute;top:.9rem;left:.9rem;font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--gold);opacity:.7}
+.proj-type-badge{position:absolute;top:.9rem;right:.9rem;background:rgba(11,17,32,.8);border:1px solid var(--border);font-family:'Fira Code',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--grey);padding:.2rem .6rem}
+.proj-body{padding:1.6rem 1.8rem 2rem;flex:1;display:flex;flex-direction:column}
+.proj-cat{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.proj-title{font-family:'Libre Baskerville',serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:.8rem;line-height:1.25}
+.proj-desc{font-size:.88rem;font-weight:300;color:rgba(248,246,240,.5);line-height:1.8;margin-bottom:1rem;flex:1}
+.proj-pts{list-style:none;margin-bottom:1.2rem;display:flex;flex-direction:column;gap:.35rem}
+.proj-pts li{font-size:.83rem;color:rgba(248,246,240,.6);display:flex;align-items:flex-start;gap:.5rem}
+.proj-pts li::before{content:'›';color:var(--gold);flex-shrink:0;font-size:1rem;line-height:1.3}
+.tag-row{display:flex;flex-wrap:wrap;gap:.4rem}
+.tag{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold-light);font-family:'Fira Code',monospace;font-size:.58rem;letter-spacing:.06em;padding:.2rem .65rem}
+
+/* SKILLS */
+.skills-sec{background:var(--navy-mid)}
+.skills-layout{display:grid;grid-template-columns:repeat(2,1fr);gap:1px}
+.skill-panel{background:var(--navy-card);border:1px solid var(--border);padding:2rem 2.2rem;transition:border-color .25s}
+.skill-panel:hover{border-color:rgba(201,168,76,.35)}
+.sp-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.sp-icon{width:34px;height:34px;background:var(--gold-dim);border:1px solid var(--gold-line);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.sp-name{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--white)}
+.sbar{margin-bottom:1rem}
+.sbar-top{display:flex;justify-content:space-between;margin-bottom:.35rem}
+.sbar-nm{font-size:.87rem;font-weight:400;color:var(--grey-light)}
+.sbar-pc{font-family:'Fira Code',monospace;font-size:.65rem;color:var(--gold);font-weight:500}
+.track{height:3px;background:rgba(201,168,76,.1);position:relative;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.4,0,.2,1)}
+.fill.go{transform:scaleX(1)}
+.soft-row{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.2rem}
+.soft-tag{border:1px solid var(--border);color:var(--grey-light);font-size:.82rem;font-weight:400;padding:.45rem 1.1rem;transition:border-color .2s,color .2s,background .2s;display:inline-flex;align-items:center;gap:.5rem;cursor:default}
+.soft-tag:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.soft-tag::before{content:'◆';font-size:.45rem;color:var(--gold)}
+.cert-wrap{margin-top:3rem;background:var(--navy-card);border:1px solid var(--border);border-left:3px solid var(--gold);padding:1.8rem 2rem;display:flex;align-items:center;gap:2rem;max-width:560px;transition:border-color .25s}
+.cert-wrap:hover{border-color:rgba(201,168,76,.5);border-left-color:var(--gold)}
+.cert-icon-box{width:50px;height:50px;flex-shrink:0;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.cert-title{font-family:'Libre Baskerville',serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.25rem}
+.cert-info{font-size:.83rem;font-weight:300;color:var(--grey-light)}
+.cert-badge{margin-top:.5rem;display:inline-flex;align-items:center;gap:.4rem;font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-line);padding:.2rem .7rem}
+
+/* CONTACT */
+.contact-sec{background:var(--navy-mid);border-top:1px solid var(--border)}
+.contact-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:5rem;align-items:start}
+.contact-title{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.05;margin-bottom:1rem}
+.contact-title em{font-style:italic;color:var(--gold)}
+.contact-note{font-size:.93rem;font-weight:300;color:rgba(248,246,240,.45);line-height:1.9;margin-bottom:2.5rem}
+.c-links{display:flex;flex-direction:column;gap:.7rem}
+.c-link{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;background:var(--navy-card);border:1px solid var(--border);border-left:2px solid var(--gold);text-decoration:none;color:var(--grey-light);font-size:.88rem;transition:background .2s,border-color .2s,color .2s}
+.c-link:hover{background:var(--navy-light);border-color:rgba(201,168,76,.45);color:var(--white)}
+.c-link svg{width:16px;height:16px;color:var(--gold);flex-shrink:0}
+.c-link-detail{display:flex;flex-direction:column}
+.c-link-lbl{font-family:'Fira Code',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.6}
+.c-link-val{font-size:.85rem;color:rgba(248,246,240,.8)}
+.c-form{display:flex;flex-direction:column;gap:1.1rem}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.fg{display:flex;flex-direction:column;gap:.4rem}
+.fg label{font-family:'Fira Code',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+.fg input,.fg textarea,.fg select{background:var(--navy-card);border:1px solid var(--border);padding:.85rem 1rem;font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--white);outline:none;transition:border-color .2s,background .2s;resize:none;-webkit-appearance:none;appearance:none}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(248,246,240,.2)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:rgba(201,168,76,.5);background:var(--navy-light)}
+.fg textarea{height:105px}
+.fg select option{background:var(--navy-mid);color:var(--white)}
+.btn-send{background:var(--gold);border:none;color:var(--navy);padding:1rem 2.2rem;cursor:pointer;align-self:flex-start;font-family:'Outfit',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:.6rem;transition:background .2s,transform .2s,box-shadow .2s}
+.btn-send:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,.3)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.6rem 4rem;display:flex;justify-content:space-between;align-items:center;background:var(--navy)}
+.ft-copy,.ft-right{font-family:'Fira Code',monospace;font-size:.62rem;letter-spacing:.1em;color:var(--grey);text-transform:uppercase}
+.ft-mark{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.3rem;color:var(--gold);letter-spacing:.05em}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s cubic-bezier(.4,0,.2,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* MOBILE */
+ /* ==== TABLET ≤900px ==== */
+@media(max-width:900px){
+  nav{padding:0 1.5rem}
+  .nav-center,.nav-btn{display:none}
+  .nav-center.open{display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:rgba(11,17,32,.98);backdrop-filter:blur(16px);padding:1.5rem 2rem;gap:1.2rem;border-bottom:1px solid var(--border)}
+  .ham{display:flex}
+  .hero{grid-template-columns:1fr;padding:90px 1.5rem 60px;gap:3rem;text-align:center;min-height:auto}
+  .hero-kicker{justify-content:center}
+  .hero-bio{margin:0 auto 2.5rem}
+  .hero-links{justify-content:center}
+  .hero-right{order:-1}
+  .photo-wrap{width:240px}
+  .sec{padding:60px 1.5rem}
+  .about-wrap{grid-template-columns:1fr;gap:3rem}
+  .proj-grid{grid-template-columns:1fr}
+  .skills-layout{grid-template-columns:1fr}
+  .contact-wrap{grid-template-columns:1fr;gap:3rem}
+  .f-row{grid-template-columns:1fr}
+  .edu-card{grid-template-columns:1fr}
+  .edu-year-col{border-right:none;border-bottom:1px solid var(--border);padding:1.2rem 1.5rem;flex-direction:row;flex-wrap:wrap;align-items:center;gap:.6rem}
+  footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
+  .divider{padding:0 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="loader-text">VNR</div></div>
+<div class="hero-bg"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <div class="logo-mark">VNR</div>
+    Vennapoosala Nandavardhan Reddy
+  </a>
+  <ul class="nav-center" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Hire Me</a>
+  <button class="ham" id="ham" onclick="toggleNav()" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-blob"></div>
+  <div class="hero-left">
+    <div class="hero-kicker">Frontend Developer</div>
+    <h1 class="hero-name">Vennapoosala<br><span class="line2">Nandavardhan Reddy</span></h1>
+    <p class="hero-tagline"><span>&lt;</span>HTML5<span>/</span>&nbsp;CSS3<span>/</span>&nbsp;Responsive<span>/&gt;</span></p>
+    <p class="hero-bio">B.Tech graduate with a genuine passion for crafting clean, accessible, responsive web interfaces. Bringing a unique blend of business thinking and frontend craftsmanship to every project.</p>
+    <div class="hero-links">
+      <a href="#projects" class="btn-gold">
+        View Projects
+      </a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1.8rem">
+      <div class="photo-wrap">
+        <div class="photo-inner">
+        <img src="nandavardhanreddy.png" alt="vennapoosala nandavardhanreddy" />
+        </div>
+        <div class="photo-badge">Open to Work</div>
+      </div>
+      <div class="hero-status">
+        <div class="status-pill"><span class="dot-live"></span>Available</div>
+        <div class="status-pill">📍 Anantapur, AP</div>
+        <div class="status-pill">🎓 B.Tech Graduate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">About</div><div class="divider-line"></div></div>
+
+<!-- ABOUT -->
+<section class="sec" id="about">
+  <div class="about-wrap">
+    <div class="rv">
+      <p class="sec-label"><span class="ln"></span>Who I Am</p>
+      <h2 class="sec-title">Motivated. Precise.<br>Frontend-Focused.</h2>
+      <div class="about-body">
+        <p>I'm <strong>Vennapoosala Nandavardhan Reddy</strong>, an B.Tech graduate from Jawaharlal Nehru Technological University,Anantapur with a focused passion for frontend web development. My journey into coding grew into a serious craft.</p>
+        <p>I build <strong>responsive, accessible interfaces</strong> using pure HTML5 and CSS3 — no bloated frameworks, just clean and purposeful code. I believe every line of markup should mean something.</p>
+        <p>I'm actively seeking my first professional frontend role, ready to bring fresh energy, a strong foundation, and a <strong>quick learner's mindset</strong> to the right team.</p>
+      </div>
+      <div class="about-meta">
+        <div class="meta-row">
+          nandavardhanreddy2002@gmail.com
+          <br><br>
+          +91 8309254512
+          <br><br>
+          Anantapur, Andhra Pradesh, India<br>
+        </div>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="stat-grid">
+        <div class="stat-cell"><div class="stat-n">3</div><div class="stat-l">Projects Built</div></div>
+        <div class="stat-cell"><div class="stat-n">71.3%</div><div class="stat-l">B.Tech Score</div></div>
+        <div class="stat-cell"><div class="stat-n">20+</div><div class="stat-l">Pages Coded</div></div>
+        <div class="stat-cell"><div class="stat-n">1</div><div class="stat-l">Certification</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">Education</div><div class="divider-line"></div></div>
+
+<!-- EDUCATION -->
+<section class="sec edu-sec" id="education">
+  <div class="rv">
+    <p class="sec-label"><span class="ln"></span>Academic Background</p>
+    <h2 class="sec-title">Education</h2>
+    <p class="sec-sub">A consistent academic record across Electrical And Electronics Engineering.</p>
+  </div>
+  <div class="edu-list">
+    <div class="edu-card rv">
+      <div class="edu-year-col"><div class="edu-yr">2020 – 2024</div><div class="edu-school" style="font-size:.78rem;color:var(--grey);margin-top:.2rem">Under-Graduate</div><div class="edu-score-tag">71.3%</div></div>
+      <div class="edu-main"><div class="edu-deg">EEE — Electrical And Electronics Engineering</div><div class="edu-school">Jawaharlal Nehru Technological University,Anantapur</div></div>
+    </div>
+    <div class="edu-card rv d1">
+      <div class="edu-year-col"><div class="edu-yr">2018 – 2020</div><div class="edu-school" style="font-size:.78rem;color:var(--grey);margin-top:.2rem">Intermediate</div><div class="edu-score-tag">85.3%</div></div>
+      <div class="edu-main"><div class="edu-deg">Intermediate — M.P.C</div><div class="edu-school">Sri Sai Krupa Junior College</div></div>
+    </div>
+    <div class="edu-card rv d2">
+      <div class="edu-year-col"><div class="edu-yr">2017 – 2018</div><div class="edu-school" style="font-size:.78rem;color:var(--grey);margin-top:.2rem">SSC</div><div class="edu-score-tag">87.4%</div></div>
+      <div class="edu-main"><div class="edu-deg">SSC — Secondary School Certificate</div><div class="edu-school">Priya darshini Vidya Mandir</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">Projects</div><div class="divider-line"></div></div>
+
+<!-- PROJECTS -->
+<section class="sec" id="projects">
+  <div class="rv">
+    <p class="sec-label"><span class="ln"></span>Selected Work</p>
+    <h2 class="sec-title">Projects</h2>
+    <p class="sec-sub">Real-world interfaces built with pure HTML5 &amp; CSS3 — no frameworks, no shortcuts.</p>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card rv">
+      <div class="proj-vis pv-a">
+        <div class="code-art"><div><span class="ca-tag">&lt;header</span> <span class="ca-kw">role</span>=<span class="ca-str">"banner"</span><span class="ca-tag">&gt;</span></div><div>&nbsp;&nbsp;<span class="ca-tag">&lt;nav</span> <span class="ca-kw">aria-label</span>=<span class="ca-str">"main"</span><span class="ca-tag">&gt;</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ca-cmt">&lt;!-- 20+ modules --&gt;</span></div><div>&nbsp;&nbsp;<span class="ca-tag">&lt;/nav&gt;</span></div><div><span class="ca-tag">&lt;/header&gt;</span></div></div>
+        <div class="proj-num">01</div><div class="proj-type-badge">Enterprise</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-cat">Web Portal</div>
+        <h3 class="proj-title">Enterprise Web Portal — ESS &amp; HR Interface</h3>
+        <p class="proj-desc">Responsive enterprise portal with Employee Self-Service and HR modules — fully coded in semantic HTML5 and CSS3.</p>
+        <ul class="proj-pts"><li>20+ pages: dashboard, payroll, attendance, reports</li><li>Semantic HTML5 &amp; ARIA for full accessibility</li><li>Flexbox &amp; Grid responsive layouts</li></ul>
+        <div class="tag-row"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">Flexbox</span><span class="tag">Grid</span><span class="tag">ARIA</span></div>
+      </div>
+    </div>
+    <div class="proj-card rv d1">
+      <div class="proj-vis pv-b">
+        <div class="code-art"><div><span class="ca-kw">.dashboard</span> {</div><div>&nbsp;&nbsp;<span class="ca-str">display:</span> grid;</div><div>&nbsp;&nbsp;<span class="ca-str">grid-template-areas:</span></div><div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ca-cmt">"sidebar content"</span></div><div>}</div></div>
+        <div class="proj-num">02</div><div class="proj-type-badge">Dashboard</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-cat">Business Dashboard</div>
+        <h3 class="proj-title">Modern Business Dashboard</h3>
+        <p class="proj-desc">A CSS-only responsive business dashboard with analytics, forms, a calendar, and messaging — zero JavaScript.</p>
+        <ul class="proj-pts"><li>12 pages: analytics, forms, calendar, messaging</li><li>Component-based CSS architecture</li><li>Theme support via CSS custom properties</li></ul>
+        <div class="tag-row"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">CSS Variables</span><span class="tag">Animations</span></div>
+      </div>
+    </div>
+    <div class="proj-card rv d2">
+      <div class="proj-vis pv-c">
+        <div class="code-art"><div><span class="ca-tag">&lt;meta</span> <span class="ca-kw">name</span>=<span class="ca-str">"viewport"</span></div><div>&nbsp;&nbsp;<span class="ca-kw">content</span>=</div><div>&nbsp;&nbsp;<span class="ca-str">"width=device-width,</span></div><div>&nbsp;&nbsp;<span class="ca-str">initial-scale=1"</span><span class="ca-tag">&gt;</span></div></div>
+        <div class="proj-num">03</div><div class="proj-type-badge">Portfolio</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-cat">Personal Project</div>
+        <h3 class="proj-title">Personal Portfolio Website</h3>
+        <p class="proj-desc">A mobile-first personal portfolio showcasing skills, projects, and background using clean HTML5 &amp; CSS3.</p>
+        <ul class="proj-pts"><li>Mobile-first responsive design approach</li><li>Lightweight — no dependencies</li><li>Semantic structure for accessibility &amp; SEO</li></ul>
+        <div class="tag-row"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">Mobile-First</span><span class="tag">SEO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">Skills</div><div class="divider-line"></div></div>
+
+<!-- SKILLS -->
+<section class="sec skills-sec" id="skills">
+  <div class="rv">
+    <p class="sec-label"><span class="ln"></span>Capabilities</p>
+    <h2 class="sec-title">Skills &amp; Expertise</h2>
+    <p class="sec-sub">Core frontend proficiencies built through hands-on project work.</p>
+  </div>
+  <div class="skills-layout" id="skillsGrid">
+    <div class="skill-panel rv">
+      <div class="sp-head"><div class="sp-icon">🎨</div><div class="sp-name">Frontend Development</div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">HTML5</span><span class="sbar-pc">90%</span></div><div class="track"><div class="fill" style="width:90%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">CSS3</span><span class="sbar-pc">88%</span></div><div class="track"><div class="fill" style="width:88%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">JavaScript (Basics)</span><span class="sbar-pc">40%</span></div><div class="track"><div class="fill" style="width:40%"></div></div></div>
+    </div>
+    <div class="skill-panel rv d1">
+      <div class="sp-head"><div class="sp-icon">📐</div><div class="sp-name">Layout &amp; Responsive</div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">CSS Flexbox</span><span class="sbar-pc">92%</span></div><div class="track"><div class="fill" style="width:92%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">CSS Grid</span><span class="sbar-pc">88%</span></div><div class="track"><div class="fill" style="width:88%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">Responsive Design</span><span class="sbar-pc">90%</span></div><div class="track"><div class="fill" style="width:90%"></div></div></div>
+    </div>
+    <div class="skill-panel rv d2">
+      <div class="sp-head"><div class="sp-icon">♿</div><div class="sp-name">Accessibility</div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">Semantic HTML</span><span class="sbar-pc">90%</span></div><div class="track"><div class="fill" style="width:90%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">ARIA Roles</span><span class="sbar-pc">80%</span></div><div class="track"><div class="fill" style="width:80%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">WCAG Standards</span><span class="sbar-pc">75%</span></div><div class="track"><div class="fill" style="width:75%"></div></div></div>
+    </div>
+    <div class="skill-panel rv d3">
+      <div class="sp-head"><div class="sp-icon">🛠️</div><div class="sp-name">Tools &amp; Workflow</div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">VS Code</span><span class="sbar-pc">92%</span></div><div class="track"><div class="fill" style="width:92%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">Git &amp; GitHub</span><span class="sbar-pc">75%</span></div><div class="track"><div class="fill" style="width:75%"></div></div></div>
+      <div class="sbar"><div class="sbar-top"><span class="sbar-nm">Browser DevTools</span><span class="sbar-pc">85%</span></div><div class="track"><div class="fill" style="width:85%"></div></div></div>
+    </div>
+  </div>
+  <div class="rv" style="margin-top:3rem">
+    <p class="sec-label"><span class="ln"></span>Soft Skills</p>
+    <div class="soft-row">
+      <div class="soft-tag">Communication</div><div class="soft-tag">Teamwork</div><div class="soft-tag">Problem Solving</div><div class="soft-tag">Quick Learner</div><div class="soft-tag">Adaptable</div><div class="soft-tag">Detail-Oriented</div>
+    </div>
+  </div>
+  <div class="rv" style="margin-top:3rem">
+    <p class="sec-label"><span class="ln"></span>Certification</p>
+    <div class="cert-wrap">
+      <div class="cert-icon-box">☕</div>
+      <div><div class="cert-title">Java FullStack </div><div class="cert-info">Object-Oriented Programming &amp; Core Java Fundamentals</div><div class="cert-badge">✓ Completed</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">Contact</div><div class="divider-line"></div></div>
+
+<!-- CONTACT -->
+<section class="sec contact-sec" id="contact">
+  <div class="contact-wrap">
+    <div class="rv">
+      <p class="sec-label"><span class="ln"></span>Get in Touch</p>
+      <h2 class="contact-title">Open to<br><em>Frontend</em><br>Opportunities</h2>
+      <p class="contact-note">I'm actively looking for entry-level frontend or web developer roles. If you're hiring or have a project, I'd love to hear from you.</p>
+      <div class="c-links">
+        <a href="mailto:nandavardhanreddy2002@gmail.com" class="c-link">
+          <div class="c-link-detail"><span class="c-link-lbl">Email</span><span class="c-link-val">nandavardhanreddy2002@gmail.com</span></div>
+        </a>
+        <div class="c-link">
+          <div class="c-link-detail"><span class="c-link-lbl">Phone</span><span class="c-link-val">+91 8309254512</span></div>
+        </div>
+        <div class="c-link">
+          <div class="c-link-detail"><span class="c-link-lbl">Location</span><span class="c-link-val">Anantapur, Andhra Pradesh, India</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="c-form">
+        <div class="f-row">
+          <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name"></div>
+          <div class="fg"><label>Company</label><input type="text" placeholder="Organisation"></div>
+        </div>
+        <div class="fg"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+        <div class="fg">
+          <label>Opportunity Type</label>
+          <select><option value="">Select…</option><option>Frontend Developer</option><option>Web Developer</option><option>UI Developer</option><option>Junior Developer</option><option>Internship</option><option>Freelance Project</option><option>Other</option></select>
+        </div>
+        <div class="fg"><label>Message</label><textarea placeholder="Tell me about the role or project…"></textarea></div>
+        <button class="btn-send" onclick="handleSend(this)">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+          <span>Send Message</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-copy">© 2025 Vennapoosala Nandavardhan Reddy</div>
+  <div class="ft-mark">VNR</div>
+  <div class="ft-right">Frontend Developer · AP, India</div>
+</footer>
+
+<script>
+// Loader
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hide'),800));
+
+// Nav
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('shadow',scrollY>30));
+function toggleNav(){
+  const links=document.getElementById('navLinks');
+  const ham=document.getElementById('ham');
+  const isOpen=links.classList.toggle('open');
+  const spans=ham.querySelectorAll('span');
+  if(isOpen){
+    spans[0].style.cssText='transform:translateY(6.5px) rotate(45deg)';
+    spans[1].style.cssText='opacity:0;transform:scaleX(0)';
+    spans[2].style.cssText='transform:translateY(-6.5px) rotate(-45deg)';
+  } else { spans.forEach(s=>s.style.cssText=''); }
+}
+document.querySelectorAll('.nav-center a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+
+// Reveal
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// Skill bars
+const barObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.fill').forEach((f,i)=>setTimeout(()=>f.classList.add('go'),i*130));barObs.unobserve(e.target)}})},{threshold:.3});
+document.querySelectorAll('.skill-panel').forEach(p=>barObs.observe(p));
+
+// Form
+function handleSend(btn){const s=btn.querySelector('span');s.textContent='Sent ✓';btn.style.background='#a8844a';btn.disabled=true;setTimeout(()=>{s.textContent='Send Message';btn.style.background='';btn.disabled=false},3000)}
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
