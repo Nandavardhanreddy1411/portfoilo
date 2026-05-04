@@ -1,1 +1,1 @@
-Frontend Portfolio - HTML , CSS & javascript
+Frontend Devloper - HTML , CSS & javascript
